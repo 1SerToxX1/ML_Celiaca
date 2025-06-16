@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-import dj_database_url  # Asegúrate de tenerlo en requirements.txt
+import dj_database_url
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,9 +12,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "clave-insegura-por-defecto")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 # Allowed hosts
-ALLOWED_HOSTS = ["ml-celiaca-91bj.onrender.com", "localhost", "127.0.0.1"]
-
-
+ALLOWED_HOSTS = [
+    "ml-celiaca-91bj.onrender.com",
+    "localhost",
+    "127.0.0.1"
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -30,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # 👈 Añadido para servir archivos estáticos
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -77,9 +80,12 @@ USE_I18N = True
 USE_TZ = True
 
 # Archivos estáticos
-STATIC_URL = "static/"
+STATIC_URL = "/static/"  # 👈 CORREGIDO: antes decía "static/" (faltaba la / inicial)
 STATICFILES_DIRS = [BASE_DIR / 'miapp' / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Para producción
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Archivos estáticos para producción con WhiteNoise
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
