@@ -24,7 +24,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-modelo_path = os.path.join(settings.BASE_DIR, 'miapp', 'modelo_entrenado', 'modelo_entrenado.pkl')
+modelo_path = os.path.join(settings.BASE_DIR, 'miapp', 'modelo_entrenado.pkl')
+
 modelo = joblib.load(modelo_path)
 
 def login_view(request):
